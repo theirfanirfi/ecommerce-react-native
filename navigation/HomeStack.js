@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TouchableOpacity } from "react-native"
 import { Icon } from "native-base"
 import { createStackNavigator } from '@react-navigation/stack';
-import { HomeScreen } from "../screens"
+import { HomeScreen, WebViewScreen } from "../screens"
 
 const Stack = createStackNavigator();
 
@@ -28,6 +28,12 @@ export const HomeStack = () => (
                 )
             }}
             name={"Home"} component={HomeScreen} />
-
+        <Stack.Screen options={{
+            headerStyle: {
+                backgroundColor: '#000',
+            },
+            headerTitle: "illuminium",
+            headerTintColor: "#fff"
+        }} name={"WebViewScreen"} component={WebViewScreen} />
     </Stack.Navigator>
 )

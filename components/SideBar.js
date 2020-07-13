@@ -14,6 +14,9 @@ export class SideBar extends React.Component {
                     (authStore) => {
                         const { state: { userName, isAuthenticated } } = authStore
                         if (isAuthenticated && !routes.includes("Logout")) {
+                            // routes.pop("Login")
+                            routes.shift();
+
                             routes.push("Logout")
                         }
                         return (

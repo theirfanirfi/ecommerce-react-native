@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TouchableOpacity } from "react-native"
 import { Icon } from "native-base"
 import { createStackNavigator } from '@react-navigation/stack';
-import { ProductsScreen, CartsScreen, CheckoutScreen, PayPalScreen } from "../screens"
+import { ProductsScreen, CartsScreen, CheckoutScreen, PayPalScreen, WebViewScreen } from "../screens"
 
 const Stack = createStackNavigator();
 
@@ -55,5 +55,7 @@ export const MerchStack = () => (
             headerTitle: "Payment",
             headerTintColor: "#fff"
         }} name={"PayPalScreen"} component={PayPalScreen} />
+
+
     </Stack.Navigator>
 )

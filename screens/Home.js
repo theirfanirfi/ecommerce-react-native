@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, ScrollView, SafeAreaView, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { Button } from 'native-base';
 import { VideoBox } from '../components/VideoBox';
@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import BottomNavigation, {
     FullTab
 } from 'react-native-material-bottom-navigation';
+import RBSheet from "react-native-raw-bottom-sheet";
 import { AuthContainer } from '../store/auth';
 
 const styles = StyleSheet.create({
@@ -77,7 +78,8 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
     state = {
-        activeTab: 'games',
+        activeTab: 'account',
+        RBSheetView: null,
         musicList: [
             { name: "For My Old Friend (XIII)", duration: "3:40", id: 1 },
             { name: "Dream Destroyer", duration: "3:42", id: 2 },
@@ -88,25 +90,45 @@ class Home extends Component {
 
     }
 
+    constructor(props) {
+        super(props);
+        // console.log('constructor called')
+    }
+
     tabs = [
         {
-            key: 'games',
-            icon: 'gamepad-variant',
-            label: 'Games',
+            key: 'account',
+            icon: 'user',
+            label: 'Account',
             barColor: '#388E3C',
             pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
-            key: 'movies-tv',
-            icon: 'movie',
-            label: 'Movies & TV',
+            key: 'chat',
+            icon: 'chat',
+            label: 'Chat',
             barColor: '#B71C1C',
             pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
-            key: 'music',
-            icon: 'music-note',
-            label: 'Music',
+            key: 'profile',
+            icon: 'user',
+            label: 'Profile',
+            barColor: '#E64A19',
+            pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+            key: 'inbox',
+            icon: 'Inbox',
+            label: 'inbox',
+            barColor: '#E64A19',
+            pressColor: 'rgba(255, 255, 255, 0.16)'
+        }
+        ,
+        {
+            key: 'cart',
+            icon: 'Cart',
+            label: 'cart',
             barColor: '#E64A19',
             pressColor: 'rgba(255, 255, 255, 0.16)'
         }
@@ -124,11 +146,79 @@ class Home extends Component {
             renderIcon={this.renderIcon(tab.icon)}
         />
     )
+    accountTabLinks() {
+        return (
+            <View style={{
+                justifyContent: 'center',
+                marginTop: 22, alignItems: 'center',
+            }}>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/my-account/orders/" })} style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Orders</Text>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/my-account/members-area/" })}
+                    style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Memberships</Text>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/my-account/subscriptions/" })}
+                    style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Subscriptions</Text>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/my-account/downloads/" })}
+                    style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Downloads</Text>
+            </View>
+        )
+    }
+
+    profileTabLinks() {
+        return (
+            <View style={{
+                justifyContent: 'center',
+                marginTop: 22, alignItems: 'center',
+            }}>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/members/hanno/profile/" })}
+                    style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Profile</Text>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/members/hanno/friends/" })}
+                    style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Friends</Text>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/activity/" })}
+                    style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Activity</Text>
+                <Text onPress={() => this.props.navigation.navigate('WebViewScreen',
+                    { url: "https://illumenium.veebispetsid.com/members/hanno/settings/" })}
+                    style={{ fontSize: 20, marginTop: 8, borderBottomWidth: 3, borderColor: 'black' }}>Settings</Text>
+            </View>
+        )
+    }
+
+    tabClicked = tab => {
+        if (tab == 'account') {
+            this.setState({
+                RBSheetView: this.accountTabLinks()
+            }, () => {
+                this.RBSheet.open();
+            })
+        } else if (tab == "chat") {
+
+        } else if (tab == "profile") {
+            this.setState({
+                RBSheetView: this.profileTabLinks()
+            }, () => {
+                this.RBSheet.open();
+            })
+        } else if (tab == "inbox") {
+            this.props.navigation.navigate('WebViewScreen', { url: "https://illumenium.veebispetsid.com/members/hanno/messages/" })
+        }
+    }
     componentDidMount() {
         return this.props.authStore.checkAuthentication()
     }
+    renderBottomSheetLinks() {
+
+    }
+
+
     render() {
         const { musicList } = this.state;
+
         return (
             <View style={styles.root}>
                 <ScrollView>
@@ -190,13 +280,24 @@ class Home extends Component {
                 </ScrollView>
 
                 <BottomNavigation
-
                     activeTab={this.state.activeTab}
-                    onTabPress={newTab => this.setState({ activeTab: newTab.key })}
+                    onTabPress={newTab => this.tabClicked(newTab.key)}
                     renderTab={this.renderTab}
                     tabs={this.tabs}
                 />
 
+                <RBSheet
+                    ref={ref => {
+                        this.RBSheet = ref;
+                    }}
+                    openDuration={250}
+                    animationType="slide"
+                    closeOnDragDown={true}
+                >
+                    <View>
+                        {this.state.RBSheetView}
+                    </View>
+                </RBSheet>
             </View>
         )
     }
