@@ -1,5 +1,6 @@
 const endpoint = "https://illumenium.veebispetsid.com/wp-json/api"
 
+
 export const login = async (username, password) => {
     try {
         const params = `username=${username}&password=${password}`
@@ -75,6 +76,16 @@ export const getProducts = async () => {
     }
 }
 
+export const getPosts = async () => {
+    const url = "https://illumenium.veebispetsid.com/wp-json/wp/v2/posts"
+    try {
+        const response = await fetch(url, { method: "GET" });
+        const responseJson = await response.json()
+
+    } catch (err) {
+
+    }
+}
 
 export const getAllMessages = async (member_id, user_id) => {
     try {
@@ -146,5 +157,3 @@ export const sendMessage = async (user_id, reciever_id, msg) => {
         }
     }
 }
-
-
