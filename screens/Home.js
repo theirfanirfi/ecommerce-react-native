@@ -3,19 +3,21 @@ import { StyleSheet, Text, View, Image, ImageBackground, Dimensions, FlatList, T
 import { Button } from 'native-base';
 import { VideoBox } from '../components/VideoBox';
 import { Subscribe } from 'unstated';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import BottomNavigation, {
     FullTab
 } from 'react-native-material-bottom-navigation';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { AuthContainer } from '../store/auth';
 import HTML from 'react-native-render-html';
+import { bicons } from '../components/Icons';
 
-
+const { Inbox } = bicons
 
 const styles = StyleSheet.create({
     root: {
-        backgroundColor: '#0F0F17',
+        backgroundColor: '#0c0c13',
         flex: 1
     },
     wrapperListAndText: {
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     },
     list: {
         paddingHorizontal: 17,
-        backgroundColor: "#E6E6E6",
+        backgroundColor: "#0c0c13",
     },
     separator: {
         marginTop: 10,
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 4,
         marginVertical: 8,
-        backgroundColor: "white"
+        backgroundColor: "#0c0c13"
     },
     cardHeader: {
         paddingVertical: 17,
@@ -129,6 +131,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         flex: 1,
+        color: 'red'
     },
     description: {
         fontSize: 15,
@@ -186,17 +189,6 @@ class Home extends Component {
         activeTab: 'account',
         RBSheetView: null,
         posts: [],
-        data: [
-            { id: 1, title: "Lorem ipsum dolor", time: "2018-08-01 12:15 pm", image: "https://lorempixel.com/400/200/nature/6/", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean  ligula..." },
-            { id: 2, title: "Sit amet, consectetuer", time: "2018-08-12 12:00 pm", image: "https://lorempixel.com/400/200/nature/5/", description: "Lorem  dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula..." },
-            { id: 3, title: "Dipiscing elit. Aenean ", time: "2017-08-05 12:21 pm", image: "https://lorempixel.com/400/200/nature/4/", description: "Lorem ipsum dolor sit , consectetuer  elit. Aenean commodo ligula..." },
-            { id: 4, title: "Commodo ligula eget dolor.", time: "2015-08-12 12:00 pm", image: "https://lorempixel.com/400/200/nature/6/", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula..." },
-            { id: 5, title: "Aenean massa. Cum sociis", time: "2013-06-12 12:11 pm", image: "https://lorempixel.com/400/200/sports/1/", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.  commodo ligula..." },
-            { id: 6, title: "Natoque penatibus et magnis", time: "2018-08-12 12:56 pm", image: "https://lorempixel.com/400/200/nature/8/", description: "Lorem ipsum  sit amet, consectetuer adipiscing elit. Aenean commodo ligula..." },
-            { id: 7, title: "Dis parturient montes, nascetur", time: "2018-08-12 12:33 pm", image: "https://lorempixel.com/400/200/nature/1/", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula..." },
-            { id: 8, title: "Ridiculus mus. Donec quam", time: "2018-06-12 12:44 pm", image: "https://lorempixel.com/400/200/nature/3/", description: "Lorem ipsum  sit amet, consectetuer adipiscing elit.  commodo ligula..." },
-            { id: 9, title: "Felis, ultricies nec, pellentesque", time: "2012-07-12 12:23 pm", image: "https://lorempixel.com/400/200/nature/4/", description: "Lorem ipsum dolor sit amet, consectetuer  elit. Aenean commodo ligula..." },
-        ]
 
     }
 
@@ -210,12 +202,12 @@ class Home extends Component {
             key: 'account',
             icon: 'user',
             label: 'Account',
-            barColor: '#388E3C',
-            pressColor: 'rgba(255, 255, 255, 0.16)'
+            barColor: 'lightgray',
+            pressColor: 'lightgray'
         },
         {
             key: 'chat',
-            icon: 'chat',
+            icon: 'comments',
             label: 'Chat',
             barColor: '#B71C1C',
             pressColor: 'rgba(255, 255, 255, 0.16)'
@@ -229,7 +221,7 @@ class Home extends Component {
         },
         {
             key: 'inbox',
-            icon: 'Inbox',
+            icon: "inbox",
             label: 'inbox',
             barColor: '#E64A19',
             pressColor: 'rgba(255, 255, 255, 0.16)'
@@ -237,7 +229,7 @@ class Home extends Component {
         ,
         {
             key: 'cart',
-            icon: 'Cart',
+            icon: 'shopping-cart',
             label: 'cart',
             barColor: '#E64A19',
             pressColor: 'rgba(255, 255, 255, 0.16)'
@@ -245,7 +237,7 @@ class Home extends Component {
     ]
 
     renderIcon = icon => ({ isActive }) => (
-        <Icon size={24} color="white" name={icon} />
+        <Icon size={24} color="black" name={icon} />
     )
 
     renderTab = ({ tab, isActive }) => (
@@ -253,6 +245,7 @@ class Home extends Component {
             isActive={isActive}
             key={tab.key}
             label={tab.label}
+            labelStyle={{ color: 'black' }}
             renderIcon={this.renderIcon(tab.icon)}
         />
     )
@@ -367,9 +360,8 @@ class Home extends Component {
                                         <View>
                                             <Text style={styles.title}>{item.title.rendered}</Text>
                                             {/* <Text style={styles.description}>{item.excerpt.rendered}</Text> */}
-                                            <HTML html={item.content.rendered} imagesMaxWidth={Dimensions.get('window').width} />
+                                            <HTML tagsStyles={{ p: { color: 'white' } }} html={item.excerpt.rendered} imagesMaxWidth={Dimensions.get('window').width} />
                                             <View style={styles.timeContainer}>
-                                                <Image style={styles.iconData} source={{ uri: 'https://png.icons8.com/color/96/3498db/calendar.png' }} />
                                                 <Text style={styles.time}>{item.date}</Text>
                                             </View>
                                         </View>
@@ -384,6 +376,7 @@ class Home extends Component {
                     onTabPress={newTab => this.tabClicked(newTab.key)}
                     renderTab={this.renderTab}
                     tabs={this.tabs}
+                    style={{ color: 'black' }}
                 />
 
                 <RBSheet
