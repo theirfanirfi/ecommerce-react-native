@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Container, Content, Text, List, ListItem } from "native-base";
 import { Subscribe } from "unstated"
 import { AuthContainer } from "../store/auth"
-const routes = ["Login", "Home", "Messenger", "Merch Deals", "Subscription"];
+const routes = ["Login", "Home", "Messenger", "Merch Deals", "Youtube", "Subscription"];
 export class SideBar extends React.Component {
 
     render() {

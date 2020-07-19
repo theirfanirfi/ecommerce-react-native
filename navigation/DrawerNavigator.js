@@ -6,7 +6,7 @@ import { MessengerStack } from "./MessengerStack"
 import { MerchStack } from "./MerchStack"
 import { SubscriptionStack } from "./SubscriptionStack"
 import { SideBar } from "../components/SideBar"
-import { PayPalScreen } from '../screens';
+import { PayPalScreen, Youtube } from '../screens';
 import Logout from './Logout';
 const Drawer = createDrawerNavigator();
 
@@ -19,6 +19,7 @@ export const DrawerNavigator = () => {
             <Drawer.Screen name="Messenger" component={MessengerStack} />
             <Drawer.Screen name="Merch Deals" component={MerchStack} />
             <Drawer.Screen name="Subscription" component={SubscriptionStack} />
+            <Drawer.Screen name="Youtube" component={Youtube} />
             <Drawer.Screen name="Logout" component={Logout} />
         </Drawer.Navigator>
     );

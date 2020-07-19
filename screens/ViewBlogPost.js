@@ -123,18 +123,19 @@ const styles = StyleSheet.create({
         backgroundColor: "#EEEEEE",
     },
     cardImage: {
-        flex: 1,
+
         height: 150,
-        width: null,
+        width: '100%',
     },
     /******** card components **************/
     title: {
-        fontSize: 18,
-        flex: 1,
-        color: 'red'
+        fontSize: 20,
+        color: 'red',
+        marginTop: 12,
+        marginBottom: 12,
     },
     description: {
-        fontSize: 15,
+        fontSize: 18,
         color: "#888",
         flex: 1,
         marginTop: 5,
@@ -184,17 +185,18 @@ const styles = StyleSheet.create({
 
 
 
-class Home extends Component {
-    state = {
-        activeTab: 'account',
-        RBSheetView: null,
-        posts: [],
+class ViewBlogPost extends Component {
 
-    }
 
     constructor(props) {
         super(props);
-        // console.log('constructor called')
+    }
+
+    state = {
+        activeTab: 'account',
+        RBSheetView: null,
+        singlepost: [],
+        blogView: null
     }
 
     tabs = [
@@ -312,68 +314,65 @@ class Home extends Component {
         }
     }
     componentDidMount() {
-        const url = "https://illumenium.veebispetsid.com/wp-json/wp/v2/posts?_embed"
-        fetch(url)
+        const url = this.props.route.params.url
+        // const url = "https://illumenium.veebispetsid.com/wp-json/wp/v2/posts/20995"
+        fetch(url + "?_embed")
             .then(res => res.json())
             .then(res => {
-                if (res.length > 0) {
-                    this.setState({
-                        posts: res
-                    })
-                }
-                console.log("length = " + res.length)
+                this.setState({
+                    singlepost: res
+                }, () => {
+                    console.log("url = " + url)
+                    console.log("title = " + this.state.singlepost.title.rendered) //here this.state.singlepost.title.rendered is accessible
+                })
             })
-        return this.props.authStore.checkAuthentication()
     }
     renderBlogPostImage(post) {
         if (post.featured_media > 0) {
-            console.log("featured image = " + post._embedded['wp:featuredmedia'][0].link)
+            console.log("feature image url = " + post._embedded['wp:featuredmedia'][0].link)
             return (
                 <Image style={styles.cardImage} source={{ uri: post._embedded['wp:featuredmedia'][0].link }} />
             )
         }
     }
 
+    renderView() {
+        if (!this.state.singlepost.title) { return <Text style={{ color: 'red' }} >Loading...</Text>; }
+        else {
+            const post = this.state.singlepost
+            return (
+                <View>
+
+                    <View>
+                        {this.renderBlogPostImage(this.state.singlepost)}
+                    </View>
+                    <View >
+                        <Text style={styles.title}>{this.state.singlepost.title.rendered}</Text>
+                        <Text style={styles.time}>Posted on: {this.state.singlepost.date}</Text>
+
+                        {/* <Text style={styles.description}>{item.excerpt.rendered}</Text> */}
+                        <HTML tagsStyles={{ p: { color: 'white', fontSize: 18 } }} html={this.state.singlepost.content.rendered} imagesMaxWidth={Dimensions.get('window').width} />
+
+                    </View>
+                </View>
+
+
+
+            )
+        }
+    }
+
 
     render() {
-        const { posts } = this.state;
+        // console.log(this.state);
+        // let s = this.state.singlepost.title.rendered ////here this.state.singlepost.title.rendered is not accessible
+        // console.log(s);
 
         return (
             <View style={styles.root}>
                 <View style={styles.container}>
-                    <FlatList style={styles.list}
-                        data={posts}
-                        keyExtractor={(item) => {
-                            return item.id;
-                        }}
-                        ItemSeparatorComponent={() => {
-                            return (
-                                <View style={styles.separator} />
-                            )
-                        }}
-                        renderItem={(post) => {
-                            const item = post.item;
-                            return (
-                                <View style={styles.card} >
-                                    <TouchableOpacity onPress={() => {
-                                        const link = item._links.self[0].href
-                                        this.props.navigation.navigate('ViewBlogPost', { url: link })
-                                    }} >
-                                        {this.renderBlogPostImage(item)}
-                                        <View style={styles.cardHeader}>
-                                            <View >
-                                                <Text style={styles.title}>{item.title.rendered}</Text>
-                                                {/* <Text style={styles.description}>{item.excerpt.rendered}</Text> */}
-                                                <HTML tagsStyles={{ p: { color: 'white' } }} html={item.excerpt.rendered} imagesMaxWidth={Dimensions.get('window').width} />
-                                                <View style={styles.timeContainer}>
-                                                    <Text style={styles.time}>{item.date}</Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        }} />
+
+                    {this.renderView()}
                 </View>
 
                 <BottomNavigation
@@ -400,11 +399,4 @@ class Home extends Component {
         )
     }
 }
-
-
-const HomeScreen = (props) => <Subscribe to={[AuthContainer]}>
-    {
-        authStore => <Home {...props} authStore={authStore} />
-    }
-</Subscribe>
-export { HomeScreen }
+export { ViewBlogPost }

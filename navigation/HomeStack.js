@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TouchableOpacity } from "react-native"
 import { Icon } from "native-base"
 import { createStackNavigator } from '@react-navigation/stack';
-import { HomeScreen, WebViewScreen } from "../screens"
+import { HomeScreen, WebViewScreen, ViewBlogPost, Youtube } from "../screens"
 
 const Stack = createStackNavigator();
 
@@ -35,5 +35,22 @@ export const HomeStack = () => (
             headerTitle: "illuminium",
             headerTintColor: "#fff"
         }} name={"WebViewScreen"} component={WebViewScreen} />
+
+        <Stack.Screen options={{
+            headerStyle: {
+                backgroundColor: '#000',
+            },
+            headerTitle: "Blog Post",
+            headerTintColor: "#fff"
+        }} name={"ViewBlogPost"} component={ViewBlogPost} />
+
+
+        <Stack.Screen options={{
+            headerStyle: {
+                backgroundColor: '#000',
+            },
+            headerTitle: "Youtube",
+            headerTintColor: "#fff"
+        }} name={"Youtube"} component={Youtube} />
     </Stack.Navigator>
 )
