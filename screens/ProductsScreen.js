@@ -310,11 +310,11 @@ class ProductsScreen extends Component {
 
                                                             </View>}
                                                             customDialogWidth={'95%'}
-                                                            customDialogHeight={'95%'}
+                                                            customDialogHeight={'70%'}
                                                             modalBackgroundColor={{ backgroundColor: '#0F0F17', borderWidth: 1, borderColor: 'white', borderRadius: 0 }}
                                                             buttonBackgroundColor={{ backgroundColor: '#DD0000' }}
 
-                                                            buttonText="VIEW DETAILS"
+                                                            buttonText="Close"
                                                             // title={"Oh no!"}
                                                             handleOnClose={() => {
                                                                 this.setState({ quickModalVisible: false })

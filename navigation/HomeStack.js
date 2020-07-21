@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TouchableOpacity } from "react-native"
 import { Icon } from "native-base"
 import { createStackNavigator } from '@react-navigation/stack';
-import { HomeScreen, WebViewScreen, ViewBlogPost, Youtube } from "../screens"
+import { HomeScreen, WebViewScreen, ViewBlogPost, Youtube, Logout } from "../screens"
 
 const Stack = createStackNavigator();
 
@@ -52,5 +52,13 @@ export const HomeStack = () => (
             headerTitle: "Youtube",
             headerTintColor: "#fff"
         }} name={"Youtube"} component={Youtube} />
+
+        <Stack.Screen options={{
+            headerStyle: {
+                backgroundColor: '#000',
+            },
+            headerTitle: "Logout",
+            headerTintColor: "#fff"
+        }} name={"Logout"} component={Logout} />
     </Stack.Navigator>
 )

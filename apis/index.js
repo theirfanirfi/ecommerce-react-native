@@ -9,6 +9,7 @@ export const login = async (username, password) => {
         const response = await fetch(url, { method: "GET" });
         const responseJson = await response.json()
         if (responseJson.status === "success") {
+            console.log(responseJson)
             return {
                 status: true,
                 message: responseJson

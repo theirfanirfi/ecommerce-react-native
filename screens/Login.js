@@ -128,6 +128,7 @@ class Login extends Component {
         Toast(response.message?.message || "Something went wrong", response.status ? 0 : 2)
         if (response.status) {
             const { message: { data } } = response;
+            console.log(data);
             await AsyncStorage.setItem("user", JSON.stringify(data))
             this.props.authStore.checkAuthentication()
             return this.props.navigation.navigate("Home")

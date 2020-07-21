@@ -18,6 +18,10 @@ export class SideBar extends React.Component {
                             routes.shift();
 
                             routes.push("Logout")
+                        } else if (!isAuthenticated && routes.includes("Logout")) {
+                            routes.pop("Logout")
+                            routes.splice(0, 0, "Login")
+
                         }
                         return (
                             <Container >

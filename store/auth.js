@@ -30,7 +30,7 @@ class AuthContainer extends Container {
         return this.setState({ isAuthenticated: false })
     }
 
-    logoutUser = (props) => {
+    logoutUser = async (props) => {
         AsyncStorage.removeItem("user");
         this.setState(
             {
@@ -40,7 +40,8 @@ class AuthContainer extends Container {
                 userName: ""
 
             })
-        return true;
+        return this.checkAuthentication()
+
 
     }
 

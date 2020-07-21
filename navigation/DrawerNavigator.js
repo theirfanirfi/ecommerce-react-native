@@ -6,8 +6,7 @@ import { MessengerStack } from "./MessengerStack"
 import { MerchStack } from "./MerchStack"
 import { SubscriptionStack } from "./SubscriptionStack"
 import { SideBar } from "../components/SideBar"
-import { PayPalScreen, Youtube } from '../screens';
-import Logout from './Logout';
+import { PayPalScreen, Youtube, Logout } from '../screens';
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
